@@ -26,6 +26,10 @@ class ManagerEngine(BaseEngine):
         self.database: BaseDatabase = get_database()
         self.datafeed: BaseDatafeed = get_datafeed()
 
+    def close(self) -> None:
+        """datafeed如果是长连接，需要重写此方法"""
+        pass
+    
     def import_data_from_csv(
         self,
         file_path: str,
