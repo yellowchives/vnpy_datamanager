@@ -26,6 +26,7 @@ class ManagerWidget(QtWidgets.QWidget):
         """"""
         super().__init__()
 
+        self.main_engine: MainEngine = main_engine
         self.engine: ManagerEngine = main_engine.get_engine(APP_NAME)
 
         self.init_ui()
@@ -402,6 +403,12 @@ class ManagerWidget(QtWidgets.QWidget):
             QtWidgets.QMessageBox.Ok,
             QtWidgets.QMessageBox.Ok,
         )
+
+    def closeEvent(self, event):
+        """连接槽函数，在窗口关闭时调用"""
+        self.engine.datafeed.close()
+        event.accept()
+        self.main_engine.write_log("关闭数据源")
 
 
 class DataCell(QtWidgets.QTableWidgetItem):
